@@ -10,7 +10,7 @@ const password = 'Temp123!';
 
 describe('Verify Sign Up flow', () => {
 
-    beforeEach('Visiting RWA Sign In page', () => {
+    beforeEach('Visiting RWA Sign In page, intercepting users request', () => {
         cy.visit('/');
         cy.intercept('POST', '/users').as('signup_submit');
     });
@@ -66,7 +66,8 @@ describe('Verify Sign Up flow', () => {
 
 describe('Verify Sign In, Onboarding and Log Out flows', () => {
     
-    beforeEach('Visiting RWA Sign In page', () => {
+    beforeEach('Clearing cookies, visiting RWA Sign In page, intercepting login, logout and graphql requests', () => {
+        cy.clearCookies();
         cy.visit('/');
         cy.intercept('POST', '/login').as('login');
         cy.intercept('POST', '/logout').as('logout');
@@ -79,7 +80,6 @@ describe('Verify Sign In, Onboarding and Log Out flows', () => {
         cy.get(sign_in_page.signIn_button).should('be.enabled').and('be.visible').click();
         cy.wait('@login').its('response.statusCode').should('eq', 200);
         cy.url().should('include', '/');
-        cy.clearCookies();
     });
 
     it('Should not be possible to Sign In with invalid credentials', () => {
@@ -89,8 +89,7 @@ describe('Verify Sign In, Onboarding and Log Out flows', () => {
         cy.wait('@login').its('response.statusCode').should('eq', 401);
         cy.url().should('include', '/signin');
         cy.get(sign_in_page.invalid_creds_message).should('be.visible').and('have.text', 'Username or password is invalid');
-        cy.clearCookies();
-    })
+    });
 
     it('Should not be possible to complete onboarding with invalid data and should show validation messages', () => {
         cy.get(sign_in_page.username_field).type(userName).should('have.attr', 'aria-invalid', 'false').and('be.visible');
@@ -98,24 +97,24 @@ describe('Verify Sign In, Onboarding and Log Out flows', () => {
         cy.get(sign_in_page.signIn_button).should('be.enabled').and('be.visible').click();
         cy.wait('@login').its('response.statusCode').should('eq', 200);
         cy.url().should('include', '/');
-        cy.get(account_page.next_btn).should('be.visible').and('have.text', 'Next').click();
-        cy.get(account_page.cba_title).should('be.visible').and('have.text', 'Create Bank Account');
-        cy.get(account_page.bank_name_field).should('have.attr', 'placeholder', 'Bank Name').and('be.visible').click();
-        cy.get(account_page.routing_name_field).should('have.attr', 'placeholder', 'Routing Number').and('be.visible').click();
-        cy.get(account_page.account_number_field).should('have.attr', 'placeholder', 'Account Number').and('be.visible').click();
-        cy.get(account_page.bank_name_field).click().get(account_page.bn_field_validation).should('be.visible')
-         .and('have.text', 'Enter a bank name').get(account_page.bank_name_field).type('1234')
-         .get(account_page.bn_field_validation).should('be.visible').and('have.text', 'Must contain at least 5 characters');
-        cy.get(account_page.rn_field_validation).should('be.visible').and('have.text', 'Enter a valid bank routing number')
-         .get(account_page.routing_name_field).click().type('12345678').get(account_page.rn_field_validation)
-         .should('be.visible').and('have.text', 'Must contain a valid routing number').get(account_page.routing_name_field)
-         .click().type('1234567890').get(account_page.rn_field_validation).should('be.visible')
-         .and('have.text', 'Must contain a valid routing number');
-        cy.get(account_page.an_field_validation).should('be.visible').and('have.text', 'Enter a valid bank account number')
-         .get(account_page.account_number_field).click().type('12345678').get(account_page.an_field_validation)
+        cy.get(account_page.onboarding.next_btn).should('be.visible').and('have.text', 'Next').click();
+        cy.get(account_page.onboarding.cba_title).should('be.visible').and('have.text', 'Create Bank Account');
+        cy.get(account_page.onboarding.bank_name_field).should('have.attr', 'placeholder', 'Bank Name').and('be.visible').click();
+        cy.get(account_page.onboarding.routing_name_field).should('have.attr', 'placeholder', 'Routing Number').and('be.visible').click();
+        cy.get(account_page.onboarding.account_number_field).should('have.attr', 'placeholder', 'Account Number').and('be.visible').click();
+        cy.get(account_page.onboarding.bank_name_field).click().get(account_page.onboarding.bn_field_validation)
+         .should('be.visible').and('have.text', 'Enter a bank name').get(account_page.onboarding.bank_name_field)
+         .type('1234').get(account_page.onboarding.bn_field_validation).should('be.visible')
+         .and('have.text', 'Must contain at least 5 characters');
+        cy.get(account_page.onboarding.rn_field_validation).should('be.visible')
+         .and('have.text', 'Enter a valid bank routing number').get(account_page.onboarding.routing_name_field).click().type('12345678')
+         .get(account_page.onboarding.rn_field_validation).should('be.visible').and('have.text', 'Must contain a valid routing number')
+         .get(account_page.onboarding.routing_name_field).click().type('1234567890').get(account_page.onboarding.rn_field_validation)
+         .should('be.visible').and('have.text', 'Must contain a valid routing number');
+        cy.get(account_page.onboarding.an_field_validation).should('be.visible').and('have.text', 'Enter a valid bank account number')
+         .get(account_page.onboarding.account_number_field).click().type('12345678').get(account_page.onboarding.an_field_validation)
          .should('be.visible').and('have.text', 'Must contain at least 9 digits');
-        cy.get(account_page.cba_save_btn).should('be.visible').and('be.disabled');
-        cy.clearCookies();
+        cy.get(account_page.onboarding.cba_save_btn).should('be.visible').and('be.disabled');
     });
 
     it('Should be possible to complete onboarding with valid data', () => {
@@ -124,19 +123,18 @@ describe('Verify Sign In, Onboarding and Log Out flows', () => {
         cy.get(sign_in_page.signIn_button).should('be.enabled').and('be.visible').click();
         cy.wait('@login').its('response.statusCode').should('eq', 200);
         cy.url().should('include', '/');
-        cy.get(account_page.next_btn).should('be.visible').and('have.text', 'Next').click();
-        cy.get(account_page.cba_title_ba).should('be.visible').and('have.text', 'Create Bank Account');
-        cy.get(account_page.bank_name_field).should('have.attr', 'placeholder', 'Bank Name').and('be.visible')
-         .click().type('12345').get(account_page.bn_field_validation).should('not.exist');
-        cy.get(account_page.routing_name_field).should('have.attr', 'placeholder', 'Routing Number').and('be.visible')
-         .click().type('123456789').get(account_page.rn_field_validation).should('not.exist');
-        cy.get(account_page.account_number_field).should('have.attr', 'placeholder', 'Account Number').and('be.visible')
-         .click().type('123456789').get(account_page.an_field_validation).should('not.exist');
-        cy.get(account_page.cba_save_btn).should('be.visible').and('be.enabled').click();
+        cy.get(account_page.onboarding.next_btn).should('be.visible').and('have.text', 'Next').click();
+        cy.get(account_page.onboarding.cba_title).should('be.visible').and('have.text', 'Create Bank Account');
+        cy.get(account_page.onboarding.bank_name_field).should('have.attr', 'placeholder', 'Bank Name').and('be.visible')
+         .click().type('12345').get(account_page.onboarding.bn_field_validation).should('not.exist');
+        cy.get(account_page.onboarding.routing_name_field).should('have.attr', 'placeholder', 'Routing Number').and('be.visible')
+         .click().type('123456789').get(account_page.onboarding.rn_field_validation).should('not.exist');
+        cy.get(account_page.onboarding.account_number_field).should('have.attr', 'placeholder', 'Account Number').and('be.visible')
+         .click().type('123456789').get(account_page.onboarding.an_field_validation).should('not.exist');
+        cy.get(account_page.onboarding.cba_save_btn).should('be.visible').and('be.enabled').click();
         cy.wait('@graphql').its('response.statusCode').should('eq', 200);
-        cy.get(account_page.next_btn).should('have.text', 'Done').click();
+        cy.get(account_page.onboarding.next_btn).should('have.text', 'Done').click();
         cy.url().should('include', '/');
-        cy.clearCookies();
     });
 
     it('Should be possible to Log Out from account', () => {
@@ -145,7 +143,7 @@ describe('Verify Sign In, Onboarding and Log Out flows', () => {
         cy.get(sign_in_page.signIn_button).should('be.enabled').and('be.visible').click();
         cy.wait('@login').its('response.statusCode').should('eq', 200);
         cy.url().should('include', '/');
-        cy.get(account_page.logout_btn).should('be.visible').and('have.text', 'Logout').click();
+        cy.get(account_page.sidebar_selectors.logout_btn).should('be.visible').and('have.text', 'Logout').click();
         cy.wait('@logout').its('response.statusCode').should('eq', 302);
         cy.url().should('include', '/signin');
     });

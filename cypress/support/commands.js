@@ -33,23 +33,23 @@ Cypress.Commands.add('ui_signin', (userName, password) => {
 Cypress.Commands.add('ui_onboarding', () => {
     cy.intercept('POST', '/graphql').as('graphql');
     cy.url().should('include', '/');
-    cy.get(account_page.next_btn).should('be.visible').and('have.text', 'Next').click();
-    cy.get(account_page.cba_title).should('be.visible').and('have.text', 'Create Bank Account');
-    cy.get(account_page.bank_name_field).should('have.attr', 'placeholder', 'Bank Name').and('be.visible')
-     .click().type('12345').get(account_page.bn_field_validation).should('not.exist');
-    cy.get(account_page.routing_name_field).should('have.attr', 'placeholder', 'Routing Number').and('be.visible')
+    cy.get(account_page.onboarding.next_btn).should('be.visible').and('have.text', 'Next').click();
+    cy.get(account_page.onboarding.cba_title).should('be.visible').and('have.text', 'Create Bank Account');
+    cy.get(account_page.onboarding.bank_name_field).should('have.attr', 'placeholder', 'Bank Name').and('be.visible')
+     .click().type('12345').get(account_page.onboarding.bn_field_validation).should('not.exist');
+    cy.get(account_page.onboarding.routing_name_field).should('have.attr', 'placeholder', 'Routing Number').and('be.visible')
      .click().type('123456789').get(account_page.rn_field_validation).should('not.exist');
-    cy.get(account_page.account_number_field).should('have.attr', 'placeholder', 'Account Number').and('be.visible')
-     .click().type('123456789').get(account_page.an_field_validation).should('not.exist');
-    cy.get(account_page.cba_save_btn).should('be.visible').and('be.enabled').click();
+    cy.get(account_page.onboarding.account_number_field).should('have.attr', 'placeholder', 'Account Number').and('be.visible')
+     .click().type('123456789').get(account_page.onboarding.an_field_validation).should('not.exist');
+    cy.get(account_page.onboarding.cba_save_btn).should('be.visible').and('be.enabled').click();
     cy.wait('@graphql').its('response.statusCode').should('eq', 200);
-    cy.get(account_page.next_btn).should('have.text', 'Done').click();
+    cy.get(account_page.onboarding.next_btn).should('have.text', 'Done').click();
     cy.url().should('include', '/');
 });
 
 Cypress.Commands.add('ui_logout', () => {
     cy.intercept('POST', '/logout').as('logout');
-    cy.get(account_page.logout_btn).should('be.visible').and('have.text', 'Logout').click();
+    cy.get(account_page.sidebar_selectors.logout_btn).should('be.visible').and('have.text', 'Logout').click();
     cy.wait('@logout').its('response.statusCode').should('eq', 302);
     cy.url().should('include', '/signin');
 });
