@@ -3,8 +3,6 @@ import {sign_in_page} from "../selectors/sign_in_page";
 import {sign_up_page} from "../selectors/sign_up_page";
 import {account_page} from "../selectors/account_page";
 
-/// <reference types="cypress" />
-
 const userName = funcs.randomUsername();
 const firstName = 'FirstName';
 const lastName = 'LastName';

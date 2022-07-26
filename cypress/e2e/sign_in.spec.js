@@ -1,7 +1,5 @@
 import {sign_in_page} from "../selectors/sign_in_page";
 
-/// <reference types="cypress" />
-
 describe('Sign In page UI tests', () => {
 
     before('Visiting RWA Sign In page', () => {
