@@ -1,10 +1,11 @@
+import {funcs} from "../helpers/funcs";
 import {sign_in_page} from "../selectors/sign_in_page";
 import {sign_up_page} from "../selectors/sign_up_page";
 import {account_page} from "../selectors/account_page";
 
 /// <reference types="cypress" />
 
-const userName = sign_up_page.randomUsername();
+const userName = funcs.randomUsername();
 const firstName = 'FirstName';
 const lastName = 'LastName';
 const password = 'Temp123!';
@@ -65,7 +66,7 @@ describe('Verify Sign Up flow', () => {
     })
 });
 
-    describe('Verify Sign In, Bank Account and Log Out flows', () => {
+describe('Verify Sign In, Onboarding and Log Out flows', () => {
     
     beforeEach('Visiting RWA Sign In page', () => {
         cy.visit('/');
@@ -93,7 +94,7 @@ describe('Verify Sign Up flow', () => {
         cy.clearCookies();
     })
 
-    it('Should not be possible to create bank account with invalid data and should show validation messages', () => {
+    it('Should not be possible to complete onboarding with invalid data and should show validation messages', () => {
         cy.get(sign_in_page.username_field).type(userName).should('have.attr', 'aria-invalid', 'false').and('be.visible');
         cy.get(sign_in_page.password_field).type(password).should('have.attr', 'aria-invalid', 'false').and('be.visible');
         cy.get(sign_in_page.signIn_button).should('be.enabled').and('be.visible').click();
@@ -119,14 +120,14 @@ describe('Verify Sign Up flow', () => {
         cy.clearCookies();
     });
 
-    it('Should be possible to create bank account with valid credentials', () => {
+    it('Should be possible to complete onboarding with valid data', () => {
         cy.get(sign_in_page.username_field).type(userName).should('have.attr', 'aria-invalid', 'false').and('be.visible');
         cy.get(sign_in_page.password_field).type(password).should('have.attr', 'aria-invalid', 'false').and('be.visible');
         cy.get(sign_in_page.signIn_button).should('be.enabled').and('be.visible').click();
         cy.wait('@login').its('response.statusCode').should('eq', 200);
         cy.url().should('include', '/');
         cy.get(account_page.next_btn).should('be.visible').and('have.text', 'Next').click();
-        cy.get(account_page.cba_title).should('be.visible').and('have.text', 'Create Bank Account');
+        cy.get(account_page.cba_title_ba).should('be.visible').and('have.text', 'Create Bank Account');
         cy.get(account_page.bank_name_field).should('have.attr', 'placeholder', 'Bank Name').and('be.visible')
          .click().type('12345').get(account_page.bn_field_validation).should('not.exist');
         cy.get(account_page.routing_name_field).should('have.attr', 'placeholder', 'Routing Number').and('be.visible')
@@ -137,19 +138,6 @@ describe('Verify Sign Up flow', () => {
         cy.wait('@graphql').its('response.statusCode').should('eq', 200);
         cy.get(account_page.next_btn).should('have.text', 'Done').click();
         cy.url().should('include', '/');
-        cy.clearCookies();
-    });
-
-    it('Should be possible to delete bank account', () => {
-        cy.get(sign_in_page.username_field).type(userName).should('have.attr', 'aria-invalid', 'false').and('be.visible');
-        cy.get(sign_in_page.password_field).type(password).should('have.attr', 'aria-invalid', 'false').and('be.visible');
-        cy.get(sign_in_page.signIn_button).should('be.enabled').and('be.visible').click();
-        cy.wait('@login').its('response.statusCode').should('eq', 200);
-        cy.url().should('include', '/');
-        cy.get(account_page.bank_accounts_btn).should('be.visible').and('have.text', 'Bank Accounts').click();
-        cy.url().should('include', '/bankaccounts');
-        cy.get(account_page.bank_acc_delete_btn).should('be.visible').and('have.text', 'Delete').click();
-        cy.wait('@graphql').its('response.statusCode').should('eq', 200);
         cy.clearCookies();
     });
 
