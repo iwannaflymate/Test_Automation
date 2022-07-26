@@ -46,3 +46,10 @@ Cypress.Commands.add('ui_onboarding', () => {
     cy.get(account_page.next_btn).should('have.text', 'Done').click();
     cy.url().should('include', '/');
 });
+
+Cypress.Commands.add('ui_logout', () => {
+    cy.intercept('POST', '/logout').as('logout');
+    cy.get(account_page.logout_btn).should('be.visible').and('have.text', 'Logout').click();
+    cy.wait('@logout').its('response.statusCode').should('eq', 302);
+    cy.url().should('include', '/signin');
+});
