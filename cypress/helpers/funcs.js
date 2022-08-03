@@ -4,5 +4,9 @@ export const funcs = {
         const unIndex = Math.floor(Math.random() * random_username.length);
         const UNrandomNumber = Math.floor(Math.random() * 10000);
         return `${random_username[unIndex]}${UNrandomNumber}`;
+    },
+    randomIntNumber() {
+        const giveMeNumber = Math.floor(Math.random() * 30);
+        return giveMeNumber;
     }
 };

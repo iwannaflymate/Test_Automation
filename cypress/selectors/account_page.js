@@ -19,5 +19,19 @@ sidebar_selectors: {
 bank_acc_selectors: {
     bank_acc_create_btn: '[data-test="bankaccount-new"]',
     bank_acc_delete_btn: '[data-test="bankaccount-delete"]'
+},
+
+transactions_selectors: {
+    new$_btn: '[data-test="nav-top-new-transaction"]',
+    search: '#user-list-search-input',
+    userList: '[data-test="users-list"]',
+    amount_fld: '#amount',
+    note_fld: '#transaction-create-description-input',
+    amount_validation: '#transaction-create-amount-input-helper-text',
+    note_validation: '#transaction-create-description-input-helper-text',
+    pay_btn: '[data-test="transaction-create-submit-payment"]',
+    request_btn: '[data-test="transaction-create-submit-request"]',
+    trnsct_submitted: '[data-test="alert-bar-success"]',
+    balance: '[data-test="sidenav-user-balance"]'
 }
 };
