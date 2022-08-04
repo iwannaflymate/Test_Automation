@@ -9,7 +9,8 @@ export const sign_in_page = {
     password_field: '#password',
     password_label: '#password-label',
     password_validation: '#password-helper-text',
+    invalid_creds_message: '[data-test="signin-error"]',
     rememberMe_checkbox: '[type="checkbox"]',
     signup_btn: '[data-test="signup"]',
     cypress_lnk: '[target="_blank"]'
-}
+};
