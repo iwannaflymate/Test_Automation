@@ -33,5 +33,18 @@ transactions_selectors: {
     request_btn: '[data-test="transaction-create-submit-request"]',
     trnsct_submitted: '[data-test="alert-bar-success"]',
     balance: '[data-test="sidenav-user-balance"]'
+},
+
+notifications_selectors: {
+    notifications_sidebar: '[data-test="sidenav-notifications"]',
+    notifications_topbar: '[data-test="nav-top-notifications-link"]',
+    notifs_items_list: '[data-test*="notification-list-item"]'
+},
+
+transaction_detail_selectors: {
+    transactionDetail_header: '[data-test="transaction-detail-header"]',
+    like_btn: '[data-test*="transaction-like-button"]',
+    comment_input_fld: '[data-test*="transaction-comment-input"]',
+    comments_list: '[data-test="comments-list"]'
 }
 };

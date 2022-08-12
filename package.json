@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/aleksronzherenko/Test_Automation#readme",
   "devDependencies": {
+    "axios": "^0.27.2",
     "cypress": "^10.3.0"
   }
 }

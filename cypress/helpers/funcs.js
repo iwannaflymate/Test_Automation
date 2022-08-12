@@ -8,5 +8,11 @@ export const funcs = {
     randomIntNumber() {
         const giveMeNumber = Math.floor(Math.random() * 30);
         return giveMeNumber;
+    },
+
+    randomNotAnullNumber() {
+        const giveMeNot0Number = Math.floor(Math.random() * 30);
+        const notNull = giveMeNot0Number + 1;
+        return notNull;
     }
 };
