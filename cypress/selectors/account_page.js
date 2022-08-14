@@ -13,7 +13,8 @@ onboarding: {
 
 sidebar_selectors: {
     bank_accounts_btn: '[data-test="sidenav-bankaccounts"]',
-    logout_btn: '[data-test="sidenav-signout"]'
+    logout_btn: '[data-test="sidenav-signout"]',
+    myaccount_btn: '[data-test="sidenav-user-settings"]'
 },
 
 bank_acc_selectors: {
@@ -55,5 +56,17 @@ homepage_selectors: {
     everyone_sec: '[data-test="nav-public-tab"]',
     friends_sec: '[data-test="nav-contacts-tab"]',
     mine_sec: '[data-test="nav-personal-tab"]'
+},
+
+user_settings: {
+    firstname_fld: '#user-settings-firstName-input',
+    lastname_fld: '#user-settings-lastName-input',
+    email_fld: '#user-settings-email-input',
+    phone_fld: '#user-settings-phoneNumber-input',
+    save_btn: '[data-test="user-settings-submit"]',
+    fn_validation: '#user-settings-firstName-input-helper-text',
+    ln_validation: '#user-settings-lastName-input-helper-text',
+    email_validation: '#user-settings-email-input-helper-text',
+    phone_validation: '#user-settings-phoneNumber-input-helper-text'
 }
 };
