@@ -44,7 +44,16 @@ notifications_selectors: {
 transaction_detail_selectors: {
     transactionDetail_header: '[data-test="transaction-detail-header"]',
     like_btn: '[data-test*="transaction-like-button"]',
+    like_counter: '[data-test*="transaction-like-count"]',
     comment_input_fld: '[data-test*="transaction-comment-input"]',
-    comments_list: '[data-test="comments-list"]'
+    comments_list: '[data-test="comments-list"]',
+    accept_req_btn: '[data-test*="transaction-accept"]',
+    reject_req_btn: '[data-test*="transaction-reject-request"]'
+},
+
+homepage_selectors: {
+    everyone_sec: '[data-test="nav-public-tab"]',
+    friends_sec: '[data-test="nav-contacts-tab"]',
+    mine_sec: '[data-test="nav-personal-tab"]'
 }
 };
