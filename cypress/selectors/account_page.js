@@ -13,7 +13,8 @@ onboarding: {
 
 sidebar_selectors: {
     bank_accounts_btn: '[data-test="sidenav-bankaccounts"]',
-    logout_btn: '[data-test="sidenav-signout"]'
+    logout_btn: '[data-test="sidenav-signout"]',
+    myaccount_btn: '[data-test="sidenav-user-settings"]'
 },
 
 bank_acc_selectors: {
@@ -33,5 +34,39 @@ transactions_selectors: {
     request_btn: '[data-test="transaction-create-submit-request"]',
     trnsct_submitted: '[data-test="alert-bar-success"]',
     balance: '[data-test="sidenav-user-balance"]'
+},
+
+notifications_selectors: {
+    notifications_sidebar: '[data-test="sidenav-notifications"]',
+    notifications_topbar: '[data-test="nav-top-notifications-link"]',
+    notifs_items_list: '[data-test*="notification-list-item"]'
+},
+
+transaction_detail_selectors: {
+    transactionDetail_header: '[data-test="transaction-detail-header"]',
+    like_btn: '[data-test*="transaction-like-button"]',
+    like_counter: '[data-test*="transaction-like-count"]',
+    comment_input_fld: '[data-test*="transaction-comment-input"]',
+    comments_list: '[data-test="comments-list"]',
+    accept_req_btn: '[data-test*="transaction-accept"]',
+    reject_req_btn: '[data-test*="transaction-reject-request"]'
+},
+
+homepage_selectors: {
+    everyone_sec: '[data-test="nav-public-tab"]',
+    friends_sec: '[data-test="nav-contacts-tab"]',
+    mine_sec: '[data-test="nav-personal-tab"]'
+},
+
+user_settings: {
+    firstname_fld: '#user-settings-firstName-input',
+    lastname_fld: '#user-settings-lastName-input',
+    email_fld: '#user-settings-email-input',
+    phone_fld: '#user-settings-phoneNumber-input',
+    save_btn: '[data-test="user-settings-submit"]',
+    fn_validation: '#user-settings-firstName-input-helper-text',
+    ln_validation: '#user-settings-lastName-input-helper-text',
+    email_validation: '#user-settings-email-input-helper-text',
+    phone_validation: '#user-settings-phoneNumber-input-helper-text'
 }
 };
