@@ -1,5 +1,5 @@
 import {account_page} from "../selectors/account_page";
-import {user_list} from "../helpers/user_list";
+import {user_list} from "../fixtures/user_list";
 import {funcs} from "../helpers/funcs";
 
 const userName = [user_list.userA.userName, user_list.userB.userName];

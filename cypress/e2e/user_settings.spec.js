@@ -1,5 +1,5 @@
 import {account_page} from "../selectors/account_page";
-import {user_list} from "../helpers/user_list";
+import {user_list} from "../fixtures/user_list";
 
 const userName = user_list.userA.userName;
 const password = 's3cret';
