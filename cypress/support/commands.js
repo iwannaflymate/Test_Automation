@@ -2,6 +2,8 @@ import {sign_in_page} from "../selectors/sign_in_page";
 import {sign_up_page} from "../selectors/sign_up_page";
 import {account_page} from "../selectors/account_page";
 
+const APIurl = 'http://localhost:3001';
+
 Cypress.Commands.add('ui_signup', (userName, password) => {
     cy.intercept('POST', '/users').as('signup_submit');
     cy.get(sign_in_page.signup_btn).should('have.text', 'Don\'t have an account? Sign Up').and('be.visible').click();
@@ -53,3 +55,24 @@ Cypress.Commands.add('ui_logout', () => {
     cy.wait('@logout').its('response.statusCode').should('eq', 302);
     cy.url().should('include', '/signin');
 });
+
+Cypress.Commands.add('api_login', (userName, password) => {
+    cy.request('POST', `${APIurl}/login`, {
+      username: userName,
+      password: password,
+    });
+  });
+  
+  Cypress.Commands.add('api_signup', (userName, password) => {
+    cy.request('POST', `${APIurl}/users`, {
+      firstName: 'Big',
+      lastName: 'Smoke',
+      username: userName,
+      password: password,
+      confirmPassword: password,
+    });
+  });
+  
+  Cypress.Commands.add('api_logout', () => {
+    cy.request('POST', `${APIurl}/logout`);
+  });
