@@ -76,3 +76,28 @@ Cypress.Commands.add('api_login', (userName, password) => {
   Cypress.Commands.add('api_logout', () => {
     cy.request('POST', `${APIurl}/logout`);
   });
+
+  Cypress.Commands.add(
+    'create_ba_api',
+    (bankName, accountNumber, routingNumber) => {
+      cy.request('POST', `${APIurl}/bankAccounts`, {
+        bankName,
+        accountNumber,
+        routingNumber,
+      });
+    }
+  );
+  
+  Cypress.Commands.add('delete_ba_api', (bankAccountId) => {
+    cy.request('DELETE', `${APIurl}/bankAccounts/${bankAccountId}`);
+  });
+  
+  Cypress.Commands.add('add_contact_api', (userId) => {
+    cy.request('POST', `${APIurl}/contacts`, {
+      contactUserId: userId,
+    });
+  });
+  
+  Cypress.Commands.add('del_contact_api', (userId) => {
+    cy.request('DELETE', `${APIurl}/contacts/${userId}`);
+  });
